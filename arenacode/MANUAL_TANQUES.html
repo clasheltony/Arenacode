@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArenaCode — Manual de Programação de Tanques</title>
+    <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    color: #1a1a2e;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 50px;
+    background: #fff;
+}
+h1 {
+    font-size: 26px;
+    color: #1e3a5f;
+    border-bottom: 3px solid #3a7bd5;
+    padding-bottom: 10px;
+    margin: 0 0 24px 0;
+}
+h2 {
+    font-size: 18px;
+    color: #1e3a5f;
+    border-left: 5px solid #3a7bd5;
+    padding-left: 10px;
+    margin: 32px 0 14px 0;
+    page-break-after: avoid;
+}
+h3 {
+    font-size: 14px;
+    color: #2c5282;
+    margin: 20px 0 8px 0;
+    page-break-after: avoid;
+}
+h4 { font-size: 13px; color: #444; margin: 14px 0 6px 0; }
+
+p { margin: 8px 0 10px 0; }
+
+a { color: #3a7bd5; }
+
+blockquote {
+    border-left: 4px solid #3a7bd5;
+    background: #eef4ff;
+    margin: 12px 0;
+    padding: 10px 16px;
+    border-radius: 0 6px 6px 0;
+    color: #2d4a7a;
+    font-size: 12.5px;
+}
+
+code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 12px;
+    background: #f0f4f8;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #c7254e;
+}
+
+pre {
+    background: #1a1a2e;
+    color: #e0e8f5;
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 12px 0;
+    page-break-inside: avoid;
+}
+pre code {
+    background: none;
+    color: #a8d4ff;
+    padding: 0;
+    font-size: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 12.5px;
+    page-break-inside: avoid;
+}
+th {
+    background: #1e3a5f;
+    color: #fff;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #dce6f5;
+}
+tr:nth-child(even) td { background: #f5f8ff; }
+
+ul, ol {
+    padding-left: 24px;
+    margin: 8px 0 10px 0;
+}
+li { margin: 4px 0; }
+
+hr {
+    border: none;
+    border-top: 2px solid #dce6f5;
+    margin: 28px 0;
+}
+
+.cover {
+    text-align: center;
+    padding: 60px 0 50px 0;
+    border-bottom: 3px solid #3a7bd5;
+    margin-bottom: 36px;
+}
+.cover h1 {
+    font-size: 34px;
+    border: none;
+    color: #1e3a5f;
+}
+.cover .subtitle { font-size: 15px; color: #555; margin-top: 8px; }
+.cover .version  { font-size: 12px; color: #999; margin-top: 6px; }
+
+.toc-box {
+    background: #f5f8ff;
+    border: 1px solid #c5d8f5;
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin: 0 0 28px 0;
+    page-break-inside: avoid;
+}
+.toc-box h2 { border: none; margin: 0 0 10px 0; font-size: 15px; color: #1e3a5f; }
+.toc-box ol { margin: 0; }
+.toc-box li { margin: 3px 0; font-size: 13px; }
+
+@media print {
+    body { padding: 20px 30px; font-size: 12px; }
+    h2 { page-break-before: auto; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+}
+</style>
+</head>
+<body>
+
+<div class="cover">
+    <h1>🎮 ArenaCode</h1>
+    <div class="subtitle">Manual de Programação de Tanques</div>
+    <div class="version">Versão 2025 · Batalha de Tanques Programáveis</div>
+</div>
+
+<h1>🎮 ArenaCode — Manual de Programação de Tanques</h1>
+<blockquote>
+<p><strong>Para quem é este manual?</strong><br />
+Para qualquer aluno que queira criar seu próprio tanque e competir na arena. Você não precisa entender como o jogo funciona por dentro — só precisa seguir as regras aqui descritas.</p>
+</blockquote>
+<hr />
+<h2>📋 Índice</h2>
+<ol>
+<li><a href="#1-estrutura-do-arquivo">Estrutura do Arquivo</a></li>
+<li><a href="#2-o-método-programar">O Método <code>programar()</code></a></li>
+<li><a href="#3-os-4-estados-do-tanque">Os 4 Estados do Tanque</a></li>
+<li><a href="#4-as-actions">As Actions — O que seu tanque pode fazer</a></li>
+<li><a href="#5-o-sistema-de-sensores">O Sistema de Sensores</a></li>
+<li><a href="#6-configurando-os-gatilhos">Configurando os Gatilhos</a></li>
+<li><a href="#7-recursos-do-tanque">Recursos do Tanque</a></li>
+<li><a href="#8-sistema-de-pontuação">Sistema de Pontuação</a></li>
+<li><a href="#9-exemplo-completo-comentado">Exemplo Completo Comentado</a></li>
+<li><a href="#10-dicas-estratégicas">Dicas Estratégicas</a></li>
+<li><a href="#11-erros-comuns">Erros Comuns</a></li>
+</ol>
+<hr />
+<h2>1. Estrutura do Arquivo</h2>
+<p>Cada tanque vive em um arquivo <code>.py</code> dentro da pasta <code>arenacode/tanks/</code>. Para criar o seu, siga exatamente este modelo:</p>
+<pre><code class="language-python">from core.tank import Tank    # Importa a classe base (obrigatório)
+from core.action import Action # Importa todas as ações disponíveis (obrigatório)
+
+class MeuTanque(Tank):          # Crie sua classe herdando de Tank
+    def __init__(self):
+        # Defina o nome e a cor do seu tanque aqui
+        super().__init__(nome=&quot;MeuTanque&quot;, cor=(255, 100, 50))
+
+    def programar(self):
+        # TODA a lógica de comportamento fica aqui
+        self.patrulhar([...])
+        self.inimigo_encontrado([...])
+        self.recebendo_ataque([...])
+        self.fugir([...])
+</code></pre>
+<p><strong>Regras importantes:</strong><br />
+- O nome da <strong>classe</strong> (ex: <code>MeuTanque</code>) deve ser único no projeto.<br />
+- O <strong>nome</strong> dentro de <code>super().__init__()</code> é o que aparece na tela.<br />
+- A <strong>cor</strong> é uma tupla RGB: <code>(Vermelho, Verde, Azul)</code>, cada valor de 0 a 255.<br />
+- Você <strong>obrigatoriamente</strong> deve implementar o método <code>programar()</code>.</p>
+<hr />
+<h2>2. O Método <code>programar()</code></h2>
+<p>O <code>programar()</code> é chamado <strong>uma única vez</strong> no início da batalha. É nele que você diz ao tanque como agir em cada situação.</p>
+<p>Você não escreve <code>if</code> ou <code>while</code> dentro dele — você <strong>lista ações sequenciais</strong> para cada estado. O motor do jogo cuida de executar essas ações na ordem certa, no momento certo.</p>
+<pre><code class="language-python">def programar(self):
+    self.configurar_gatilhos(vida=30, municao=5, alerta=2.0)  # Opcional
+
+    self.patrulhar([
+        Action.MOVER_FRENTE(150),
+        Action.GIRAR_DIREITA(90),
+    ])
+
+    self.inimigo_encontrado([
+        Action.MIRAR,
+        Action.ATIRAR_MEDIA,
+    ])
+
+    self.recebendo_ataque([
+        Action.ESQUIVA_SMART,
+        Action.MIRAR,
+        Action.ATIRAR_FORTE,
+    ])
+
+    self.fugir([
+        Action.MOVER_TRAS(100),
+        Action.GIRAR_ESQUERDA(90),
+    ])
+</code></pre>
+<blockquote>
+<p><strong>Como funciona na prática:</strong><br />
+A cada frame do jogo, o motor analisa a situação do tanque, decide em qual estado ele está (patrulhando, atacando, etc.) e executa a <strong>próxima ação</strong> da lista correspondente. Quando a lista termina, ela <strong>recomeça do início automaticamente</strong> (loop).</p>
+</blockquote>
+<hr />
+<h2>3. Os 4 Estados do Tanque</h2>
+<p>O tanque possui <strong>4 estados</strong> que determinam qual lista de ações será executada. O motor troca de estado automaticamente conforme a situação do campo de batalha.</p>
+<h3>Prioridade dos Estados (do mais urgente ao menos urgente):</h3>
+<pre><code>FUGIR  &gt;  SOB ATAQUE  &gt;  INIMIGO ENCONTRADO  &gt;  PATRULHANDO
+</code></pre>
+<p>Isso significa: se o tanque estiver com vida baixa E com inimigos por perto, ele entra em <strong>FUGIR</strong>, não em <strong>INIMIGO ENCONTRADO</strong>.</p>
+<hr />
+<h3>🔵 Estado 1: <code>patrulhar</code> — "Nada acontecendo"</h3>
+<p><strong>Quando ativa:</strong> Quando não há inimigos detectados, não está recebendo ataque e os recursos ainda estão acima do limite de fuga.</p>
+<p><strong>Para que serve:</strong> Movimentar o tanque pela arena enquanto procura inimigos. Um bom patrulhamento evita que o tanque fique parado num canto.</p>
+<pre><code class="language-python">self.patrulhar([
+    Action.MOVER_FRENTE(200),    # Anda 200 pixels para frente
+    Action.GIRAR_DIREITA(90),    # Vira 90° à direita
+    Action.VARREDURA_RADAR(360), # Gira 360° procurando inimigos
+])
+</code></pre>
+<p><strong>Dica:</strong> Use <code>Action.VARREDURA_RADAR</code> para sair do estado de patrulha mais rápido — ele avança automaticamente assim que detectar um inimigo.</p>
+<hr />
+<h3>🔴 Estado 2: <code>inimigo_encontrado</code> — "Tem alguém aqui!"</h3>
+<p><strong>Quando ativa:</strong> Quando o sensor detecta um inimigo dentro do <strong>cone de visão frontal de 120°</strong> e a até <strong>400 pixels</strong> de distância.</p>
+<p><strong>Para que serve:</strong> Definir o comportamento de combate. É aqui que você atira, persegue ou mantém distância.</p>
+<pre><code class="language-python">self.inimigo_encontrado([
+    Action.MIRAR,              # Gira até apontar para o inimigo
+    Action.ATIRAR_MEDIA,       # Atira (custo médio de energia)
+    Action.PERSEGUIR(100),     # Persegue o inimigo por 100 pixels
+])
+</code></pre>
+<blockquote>
+<p><strong>Atenção:</strong> O tanque só detecta inimigos em um cone de <strong>±60° da sua frente</strong> e em até <strong>400px</strong>. Se o inimigo estiver atrás ou muito longe, o tanque volta ao estado de patrulha.</p>
+</blockquote>
+<hr />
+<h3>🟡 Estado 3: <code>recebendo_ataque</code> — "Estou sendo atingido!"</h3>
+<p><strong>Quando ativa:</strong> Toda vez que o tanque <strong>recebe dano</strong>, ele entra neste estado por um tempo configurável (padrão: <strong>2 segundos</strong>). Mesmo que o inimigo saia do campo de visão, o estado permanece ativo durante esse tempo.</p>
+<p><strong>Para que serve:</strong> Reagir a um ataque — esquivar, revidar, se reposicionar.</p>
+<pre><code class="language-python">self.recebendo_ataque([
+    Action.ESQUIVA_SMART,     # Detecta balas e esquiva automaticamente
+    Action.MIRAR,             # Aponta para o agressor
+    Action.ATIRAR_FORTE,      # Contra-ataca com tiro pesado
+    Action.MOVER_FRENTE(50),  # Avança um pouco para sair da linha de fogo
+])
+</code></pre>
+<hr />
+<h3>🟣 Estado 4: <code>fugir</code> — "Preciso sobreviver!"</h3>
+<p><strong>Quando ativa:</strong> Quando a <strong>vida</strong> cai abaixo do limite configurado (padrão: 40 pontos) <strong>OU</strong> quando a <strong>munição</strong> fica abaixo do limite (padrão: 4 balas).</p>
+<p><strong>Para que serve:</strong> Sobrevivência. Neste estado, o tanque deve priorizar se afastar do perigo.</p>
+<pre><code class="language-python">self.fugir([
+    Action.MOVER_TRAS(80),     # Recua 80 pixels
+    Action.GIRAR_ESQUERDA(90), # Muda de direção
+    Action.MIRAR,              # Ainda tenta mirar
+    Action.ATIRAR_FRACA,       # Atira fracamente (gasta pouca energia)
+])
+</code></pre>
+<blockquote>
+<p><strong>Importante:</strong> O estado <code>fugir</code> também é ativado com <strong>munição baixa</strong>. Isso faz sentido porque sem balas, continuar no combate é perigoso.</p>
+</blockquote>
+<hr />
+<h2>4. As Actions</h2>
+<p>Actions são os <strong>comandos</strong> que você passa para cada estado. Cada ação é executada até ser concluída, depois a próxima começa.</p>
+<p>Existem dois jeitos de usar uma Action:</p>
+<pre><code class="language-python"># Com valor explícito (você define quanto):
+Action.MOVER_FRENTE(150)   # Move exatamente 150 pixels
+
+# Sem valor (usa o padrão):
+Action.MOVER_FRENTE        # Move 50 pixels (padrão)
+</code></pre>
+<hr />
+<h3>📦 Tabela Completa de Actions</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Valor Padrão</th>
+<th>O que faz</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Action.MOVER_FRENTE(pixels)</code></td>
+<td>50 px</td>
+<td>Move o tanque para frente a distância especificada</td>
+</tr>
+<tr>
+<td><code>Action.MOVER_TRAS(pixels)</code></td>
+<td>50 px</td>
+<td>Move o tanque para trás (velocidade reduzida à metade)</td>
+</tr>
+<tr>
+<td><code>Action.GIRAR_DIREITA(graus)</code></td>
+<td>45°</td>
+<td>Rotaciona o tanque no sentido horário</td>
+</tr>
+<tr>
+<td><code>Action.GIRAR_ESQUERDA(graus)</code></td>
+<td>45°</td>
+<td>Rotaciona o tanque no sentido anti-horário</td>
+</tr>
+<tr>
+<td><code>Action.GIRAR_ALEATORIO(graus)</code></td>
+<td>aleatório</td>
+<td>Gira um ângulo aleatório entre 45° e 180°</td>
+</tr>
+<tr>
+<td><code>Action.PARADO</code></td>
+<td>—</td>
+<td>Tanque fica parado por um momento</td>
+</tr>
+<tr>
+<td><code>Action.MIRAR</code></td>
+<td>—</td>
+<td>Gira o tanque até apontar para o inimigo mais próximo (funciona em 360°)</td>
+</tr>
+<tr>
+<td><code>Action.ATIRAR</code></td>
+<td>—</td>
+<td>Atira (alias de <code>ATIRAR_MEDIA</code>)</td>
+</tr>
+<tr>
+<td><code>Action.ATIRAR_FRACA</code></td>
+<td>—</td>
+<td>Tiro fraco: pouco dano, pouca energia</td>
+</tr>
+<tr>
+<td><code>Action.ATIRAR_MEDIA</code></td>
+<td>—</td>
+<td>Tiro médio: dano e energia moderados</td>
+</tr>
+<tr>
+<td><code>Action.ATIRAR_FORTE</code></td>
+<td>—</td>
+<td>Tiro pesado: muito dano, consome muita energia</td>
+</tr>
+<tr>
+<td><code>Action.ATIRAR_CERTEIRO</code></td>
+<td>—</td>
+<td>Só atira se o alvo estiver dentro de 5° de mira</td>
+</tr>
+<tr>
+<td><code>Action.PERSEGUIR(pixels)</code></td>
+<td>50 px</td>
+<td>Gira em direção ao inimigo <strong>e</strong> avança ao mesmo tempo</td>
+</tr>
+<tr>
+<td><code>Action.MOVER_SEGURO(pixels)</code></td>
+<td>50 px</td>
+<td>Move para frente mas <strong>para automaticamente</strong> se uma parede estiver a menos de 50px</td>
+</tr>
+<tr>
+<td><code>Action.ESQUIVA_SMART</code></td>
+<td>—</td>
+<td>Detecta balas vindo de frente e esquiva automaticamente</td>
+</tr>
+<tr>
+<td><code>Action.VARREDURA_RADAR(graus)</code></td>
+<td>360°</td>
+<td>Gira até detectar um inimigo ou completar o ângulo especificado</td>
+</tr>
+<tr>
+<td><code>Action.MANTER_DISTANCIA(pixels)</code></td>
+<td>250 px</td>
+<td>Aproxima ou afasta do inimigo para manter a distância ideal</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>🔫 Detalhes dos Tipos de Tiro</h3>
+<table>
+<thead>
+<tr>
+<th>Tiro</th>
+<th>Dano</th>
+<th>Custo de Energia</th>
+<th>Velocidade da Bala</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ATIRAR_FRACA</code></td>
+<td>3 pts</td>
+<td>10 energia</td>
+<td>7.0 (lenta)</td>
+</tr>
+<tr>
+<td><code>ATIRAR_MEDIA</code> / <code>ATIRAR</code></td>
+<td>6 pts</td>
+<td>25 energia</td>
+<td>11.0 (média)</td>
+</tr>
+<tr>
+<td><code>ATIRAR_FORTE</code></td>
+<td>12 pts</td>
+<td>50 energia</td>
+<td>16.0 (rápida)</td>
+</tr>
+<tr>
+<td><code>ATIRAR_CERTEIRO</code></td>
+<td>6 pts</td>
+<td>25 energia</td>
+<td>11.0 (média, mas só atira se mirando)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Regra de cooldown:</strong> Após cada tiro, o tanque aguarda <strong>45 frames (~0,75 segundos)</strong> antes de poder atirar novamente, independente do tipo de tiro.</p>
+<p><strong>Recuperação de munição:</strong> A cada <strong>3 acertos</strong> no inimigo, o tanque recupera <strong>1 bala</strong>. Precisão é recompensada!</p>
+</blockquote>
+<hr />
+<h3>💡 Comportamentos Especiais Explicados</h3>
+<h4><code>Action.MIRAR</code></h4>
+<p>Não atira — apenas <strong>gira o tanque</strong> até estar apontado para o inimigo mais próximo. Quando a mira estiver alinhada (erro &lt; 3°), a ação é concluída e a próxima começa.</p>
+<p><strong>Busca em 360°</strong> — diferente do sensor, o <code>MIRAR</code> encontra o inimigo mesmo que esteja atrás do tanque.</p>
+<pre><code class="language-python">self.inimigo_encontrado([
+    Action.MIRAR,        # Primeiro alinha a mira...
+    Action.ATIRAR_MEDIA, # ...depois atira
+])
+</code></pre>
+<h4><code>Action.PERSEGUIR(pixels)</code></h4>
+<p>Faz duas coisas ao mesmo tempo: <strong>gira em direção ao inimigo</strong> enquanto <strong>avança</strong>. Ideal para perseguições. Se colidir com algo, pula para a próxima ação.</p>
+<h4><code>Action.ATIRAR_CERTEIRO</code></h4>
+<p>Diferente de <code>ATIRAR_MEDIA</code>, esta ação só dispara se o inimigo estiver dentro de <strong>5° da mira atual</strong>. Se não estiver alinhado, a ação é pulada sem gastar munição ou energia. Ótimo para não desperdiçar balas.</p>
+<h4><code>Action.ESQUIVA_SMART</code></h4>
+<p>Analisa os sensores em busca de balas vindo de frente (ângulo relativo &lt; 30°). Se detectar perigo, <strong>interrompe tudo</strong> e executa uma sequência de emergência: gira 90° e avança 50px. Depois retorna ao fluxo normal.</p>
+<h4><code>Action.VARREDURA_RADAR(graus)</code></h4>
+<p>Gira o tanque varrendo a área em busca de inimigos. <strong>Avança para a próxima ação imediatamente</strong> se detectar um inimigo. Se girar todo o ângulo sem encontrar ninguém, avança normalmente.</p>
+<h4><code>Action.MOVER_SEGURO(pixels)</code></h4>
+<p>Igual ao <code>MOVER_FRENTE</code>, mas com um sensor de parede embutido: se a parede estiver a menos de <strong>50px na frente</strong>, para e avança para a próxima ação. Previne colisões desnecessárias.</p>
+<h4><code>Action.MANTER_DISTANCIA(pixels)</code></h4>
+<p>Monitora continuamente a distância do inimigo mais próximo. Se estiver muito perto, recua. Se estiver muito longe, avança. Termina quando a distância estiver dentro de <strong>±20px</strong> do alvo.</p>
+<hr />
+<h3>🔧 Comportamento em Colisão com Parede</h3>
+<p>Quando um tanque (<code>MOVER_FRENTE</code>, <code>MOVER_TRAS</code> ou <code>PERSEGUIR</code>) bate em uma parede, o motor automaticamente executa uma <strong>sequência de recuperação</strong>:</p>
+<ol>
+<li>Gira 90° para a direita</li>
+<li>Avança 60 pixels</li>
+</ol>
+<p>Isso acontece antes de qualquer coisa que você programou — é um mecanismo de proteção para o tanque não ficar preso.</p>
+<hr />
+<h2>5. O Sistema de Sensores</h2>
+<p>O objeto <code>Sensor</code> representa o que o tanque <strong>enxerga</strong> ao redor. Ele é gerado automaticamente pelo motor a cada frame — você não precisa criar nem modificar ele.</p>
+<p>Os sensores são usados <strong>internamente</strong> pelas Actions inteligentes (como <code>ESQUIVA_SMART</code> e <code>VARREDURA_RADAR</code>). Mas é importante entender o que cada um contém para saber quando as Actions vão reagir.</p>
+<h3>Campos do Sensor</h3>
+<pre><code class="language-python"># Lista de inimigos detectados no cone de visão (±60° frontal, até 400px)
+sensor.inimigos_proximos  # Lista de dicionários, ordenada por distância
+
+# Cada inimigo na lista tem:
+# { 'distancia': float,        → Distância em pixels até o inimigo
+#   'angulo_relativo': float,  → Ângulo em graus (positivo = esquerda, negativo = direita)
+#   'vida': int }              → Vida atual do inimigo (0-100)
+
+# Distância até a parede em cada direção (em pixels)
+sensor.parede_frente      # Distância da parede à frente
+sensor.parede_direita     # Distância da parede à direita
+sensor.parede_esquerda    # Distância da parede à esquerda
+
+# Informações próprias do tanque
+sensor.propria_vida       # Sua vida atual (0-100)
+sensor.propria_municao    # Sua munição atual
+
+# Balas inimigas próximas (até 200px)
+sensor.balas_proximas     # Lista de dicionários
+# Cada bala:
+# { 'distancia': float,       → Distância da bala até o tanque
+#   'angulo_relativo': float } → Ângulo relativo da bala
+</code></pre>
+<blockquote>
+<p><strong>Atenção ao cone de visão:</strong> O sensor de <code>inimigos_proximos</code> só detecta dentro de <strong>±60° da frente</strong> e <strong>400px de raio</strong>. Já ações como <code>MIRAR</code> e <code>PERSEGUIR</code> buscam inimigos em <strong>360°</strong> (varredura total do mapa).</p>
+</blockquote>
+<hr />
+<h2>6. Configurando os Gatilhos</h2>
+<p>Os <strong>gatilhos</strong> definem os limites que fazem o tanque mudar de estado. Você os configura com <code>configurar_gatilhos()</code> dentro do <code>programar()</code>.</p>
+<pre><code class="language-python">self.configurar_gatilhos(
+    vida=40,      # Entra em FUGIR quando vida &lt;= 40 (padrão: 40)
+    municao=4,    # Entra em FUGIR quando munição &lt;= 4 (padrão: 4)
+    alerta=2.0    # Fica em SOB_ATAQUE por 2 segundos após levar dano (padrão: 2.0)
+)
+</code></pre>
+<h3>Exemplos de estratégias com gatilhos:</h3>
+<p><strong>Tanque Agressivo</strong> — foge só no limite extremo:</p>
+<pre><code class="language-python">self.configurar_gatilhos(vida=15, municao=1, alerta=1.0)
+</code></pre>
+<p><strong>Tanque Cauteloso</strong> — foge cedo e fica alerta por mais tempo:</p>
+<pre><code class="language-python">self.configurar_gatilhos(vida=60, municao=8, alerta=4.0)
+</code></pre>
+<p><strong>Tanque Kamikaze</strong> — nunca foge:</p>
+<pre><code class="language-python">self.configurar_gatilhos(vida=0, municao=0, alerta=0.5)
+</code></pre>
+<hr />
+<h2>7. Recursos do Tanque</h2>
+<h3>Vida</h3>
+<ul>
+<li>Começa em <strong>100</strong> e vai até 0.</li>
+<li>Quando chega a 0, o tanque é destruído.</li>
+<li><strong>Não se regenera</strong> durante a batalha.</li>
+</ul>
+<h3>Energia</h3>
+<ul>
+<li>Começa em <strong>100</strong> e é consumida ao atirar.</li>
+<li><strong>Regenera automaticamente</strong> à taxa de ~21 pontos por segundo.</li>
+<li>Se não houver energia suficiente, o tiro não é disparado (a ação é pulada).</li>
+</ul>
+<h3>Munição</h3>
+<ul>
+<li>Começa em <strong>30 balas</strong>.</li>
+<li>Cada tiro consome <strong>1 bala</strong>, independente do tipo.</li>
+<li><strong>Recuperação por acerto:</strong> A cada 3 tiros que acertam o inimigo, você ganha 1 bala de volta.</li>
+<li>Quando acaba, o tanque não pode mais atirar.</li>
+</ul>
+<hr />
+<h2>8. Sistema de Pontuação</h2>
+<p>A pontuação é calculada ao final de cada rodada:</p>
+<table>
+<thead>
+<tr>
+<th>Evento</th>
+<th>Pontos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vitória (único sobrevivente)</td>
+<td><strong>+100</strong></td>
+</tr>
+<tr>
+<td>Sobrevivência (tempo esgotado com vida)</td>
+<td><strong>+25</strong></td>
+</tr>
+<tr>
+<td>Destruído</td>
+<td><strong>-50</strong></td>
+</tr>
+<tr>
+<td>Cada ponto de dano causado</td>
+<td><strong>+2</strong></td>
+</tr>
+<tr>
+<td>Cada tiro que acerta</td>
+<td><strong>+10</strong></td>
+</tr>
+<tr>
+<td>Cada tiro que erra</td>
+<td><strong>-2</strong></td>
+</tr>
+<tr>
+<td>Cada inimigo destruído</td>
+<td><strong>+50</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fórmula:</strong></p>
+<pre><code>Total = Vitória/Sobrevivência/Destruído + (dano × 2) + (acertos × 10) + (erros × -2) + (destruições × 50)
+</code></pre>
+<blockquote>
+<p><strong>Estratégia de pontuação:</strong> Acertar é mais importante que atirar muito. Um tiro que erra custa <strong>-2 pontos</strong>, enquanto um que acerta vale <strong>+10 + 2 por ponto de dano</strong>.</p>
+</blockquote>
+<hr />
+<h2>9. Exemplo Completo Comentado</h2>
+<pre><code class="language-python">from core.tank import Tank
+from core.action import Action
+
+class TanqueEstrategista(Tank):
+    &quot;&quot;&quot;
+    Um tanque equilibrado que usa visão de radar,
+    mantém distância e atira com precisão.
+    &quot;&quot;&quot;
+    def __init__(self):
+        # Nome que aparece na tela e cor em RGB
+        super().__init__(nome=&quot;Estrategista&quot;, cor=(80, 200, 120))
+
+    def programar(self):
+        # Configura quando mudar de estado
+        # Foge quando vida &lt; 25 ou munição &lt; 3
+        # Fica alerta por 3 segundos após levar dano
+        self.configurar_gatilhos(vida=25, municao=3, alerta=3.0)
+
+        # PATRULHAMENTO: Varre a arena em zigue-zague
+        # Sequência: anda → vira → anda → vira → repete
+        self.patrulhar([
+            Action.MOVER_FRENTE(200),    # Avança 200 pixels
+            Action.GIRAR_DIREITA(90),    # Vira 90° à direita
+            Action.VARREDURA_RADAR(360), # Faz uma varredura completa
+            Action.MOVER_FRENTE(150),    # Avança mais 150 pixels
+            Action.GIRAR_ESQUERDA(90),   # Vira 90° à esquerda
+        ])
+
+        # COMBATE: Mira, atira e mantém distância segura
+        self.inimigo_encontrado([
+            Action.MIRAR,                   # Alinha a mira no inimigo
+            Action.ATIRAR_CERTEIRO,         # Só atira se estiver bem mirando
+            Action.MANTER_DISTANCIA(180),   # Mantém 180px de distância
+            Action.MIRAR,                   # Re-alinha (o inimigo pode ter se movido)
+            Action.ATIRAR_MEDIA,            # Atira normalmente
+        ])
+
+        # SOB ATAQUE: Esquiva e revida
+        self.recebendo_ataque([
+            Action.ESQUIVA_SMART,       # Tenta esquivar de balas vindo de frente
+            Action.MIRAR,               # Aponta para o agressor
+            Action.ATIRAR_FORTE,        # Revida com força máxima
+            Action.MOVER_FRENTE(80),    # Sai da posição para não virar alvo fácil
+        ])
+
+        # FUGA: Recua e ainda tenta atirar
+        self.fugir([
+            Action.MOVER_TRAS(100),      # Recua 100 pixels
+            Action.GIRAR_ALEATORIO(90),  # Gira aleatoriamente para confundir
+            Action.MIRAR,                # Ainda tenta mirar
+            Action.ATIRAR_FRACA,         # Atira fraco para não gastar muita energia
+        ])
+</code></pre>
+<hr />
+<h2>10. Dicas Estratégicas</h2>
+<h3>🎯 Precisão vale mais que volume de tiros</h3>
+<p>Cada erro custa <strong>-2 pontos</strong> e gasta sua munição. Use <code>ATIRAR_CERTEIRO</code> ou sempre <code>MIRAR</code> antes de atirar.</p>
+<h3>🔄 Sequências em loop</h3>
+<p>As listas de ações formam um loop contínuo. Pense em sequências que fazem sentido sendo repetidas. Por exemplo:</p>
+<pre><code class="language-python"># Loop de combate eficiente:
+[Action.MIRAR, Action.ATIRAR_MEDIA, Action.MANTER_DISTANCIA(150)]
+# 1. Mira → 2. Atira → 3. Reposiciona → volta para 1. Mira...
+</code></pre>
+<h3>🛡️ Não deixe o estado <code>fugir</code> vazio</h3>
+<p>Se o tanque entrar em fuga e não tiver ações definidas, ele ficará parado — um alvo fácil. Sempre coloque pelo menos um <code>MOVER_TRAS</code> na fuga.</p>
+<h3>📡 Use <code>VARREDURA_RADAR</code> no patrulhamento</h3>
+<p>Sem varredura, o tanque pode não detectar inimigos que estão fora do seu cone de visão frontal. A varredura garante que ele encontre inimigos mesmo ao redor.</p>
+<h3>⚡ Gerencie a energia</h3>
+<p><code>ATIRAR_FORTE</code> gasta 50 de energia. Se você usar muitos seguidos, o tanque ficará sem energia para atirar. Alterne com <code>ATIRAR_FRACA</code> (10 de energia) para se recuperar.</p>
+<h3>🔢 Limite de 5 ações por estado</h3>
+<p>Cada estado aceita no máximo <strong>5 ações</strong>. Se você colocar mais, as extras serão ignoradas.</p>
+<hr />
+<h2>11. Erros Comuns</h2>
+<h3>❌ Esquecer de chamar <code>super().__init__()</code></h3>
+<pre><code class="language-python"># ERRADO:
+def __init__(self):
+    self.nome = &quot;Meu Tanque&quot;  # Isso vai quebrar o jogo!
+
+# CORRETO:
+def __init__(self):
+    super().__init__(nome=&quot;Meu Tanque&quot;, cor=(200, 50, 50))
+</code></pre>
+<h3>❌ Esquecer de importar o <code>Action</code></h3>
+<pre><code class="language-python"># ERRADO:
+from core.tank import Tank  # Só isso não basta!
+
+# CORRETO:
+from core.tank import Tank
+from core.action import Action  # Necessário para usar Action.MOVER_FRENTE etc.
+</code></pre>
+<h3>❌ Tentar usar <code>if</code>/<code>while</code> dentro de <code>programar()</code></h3>
+<p>O método <code>programar()</code> é executado <strong>uma só vez</strong>, antes da batalha começar. Você não pode colocar lógica condicional nele — as Actions cuidam das decisões durante a batalha.</p>
+<pre><code class="language-python"># ERRADO (não funciona como esperado):
+def programar(self):
+    if self.vida &lt; 50:     # self.vida aqui é sempre 100!
+        self.fugir([...])
+
+# CORRETO: use configurar_gatilhos() para definir quando fugir
+def programar(self):
+    self.configurar_gatilhos(vida=50)
+    self.fugir([...])
+</code></pre>
+<h3>❌ Passar o tipo de ação errado</h3>
+<pre><code class="language-python"># ERRADO (strings não funcionam):
+self.patrulhar([&quot;MOVER_FRENTE&quot;, &quot;GIRAR_DIREITA&quot;])
+
+# CORRETO (use Action.):
+self.patrulhar([Action.MOVER_FRENTE(150), Action.GIRAR_DIREITA(90)])
+</code></pre>
+<hr />
+<p><em>Manual gerado para o projeto </em><em>ArenaCode</em><em> — Batalha de Tanques Programáveis</em></p>
+<hr>
+<p style="text-align:center;color:#aaa;font-size:11px;margin-top:20px;">
+    ArenaCode · Manual gerado automaticamente · 2025
+</p>
+</body>
+</html>
